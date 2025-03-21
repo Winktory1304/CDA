@@ -1,0 +1,121 @@
+/* Grundlayout */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+
+h1,
+h2,
+h3 {
+    text-align: center;
+    color: #333;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 1rem;
+}
+
+.settings {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.settings label {
+    margin-right: 0.5rem;
+}
+
+.settings input {
+    width: 80px;
+    padding: 0.3rem;
+}
+
+.settings button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* Spielplan & Stand */
+.tournament,
+.standings {
+    background: #fff;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.round {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1rem;
+}
+
+.round:last-child {
+    border: none;
+}
+
+.match {
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.match span {
+    flex: 1;
+    min-width: 200px;
+}
+
+.match input[type="number"] {
+    width: 60px;
+    padding: 0.3rem;
+    margin-left: 0.5rem;
+}
+
+/* Tabelle für den Turnierstand */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.5rem;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+th {
+    background: #eee;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 600px) {
+    .settings {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .match {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .match input[type="number"] {
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+}
