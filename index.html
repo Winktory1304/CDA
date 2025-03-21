@@ -1,46 +1,46 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dart Turnier App</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dart Turnier App</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+  <header>
     <h1>Dart Turnier App</h1>
-    <div class="container">
-        <!-- Einstellungen -->
-        <div class="settings">
-            <div>
-                <label for="playerCount">Anzahl Spieler:</label>
-                <input type="number" id="playerCount" min="2" value="4">
-            </div>
-            <div>
-                <label for="dartAutomaten">Anzahl Dartautomaten:</label>
-                <input type="number" id="dartAutomaten" min="1" value="2">
-            </div>
-            <div>
-                <button id="generateBtn">Turnier starten</button>
-            </div>
-        </div>
-        <!-- Spielplan -->
-        <div class="tournament">
-            <h2>Spielplan</h2>
-            <div id="schedule"></div>
-        </div>
-        <!-- Turnierstand -->
-        <div class="standings">
-            <h2>Turnierstand</h2>
-            <div style="text-align:center; margin-bottom: 0.5rem;">
-                <button id="refreshBtn">Refresh Stand</button>
-                <button id="resetBtn">Reset Turnier</button>
-            </div>
-            <div id="standingsList"></div>
-        </div>
+    <button id="toggleDarkMode">Dark Mode</button>
+  </header>
+  <div class="container">
+    <!-- Einstellungen -->
+    <div class="settings">
+      <div>
+        <label for="playerCount">Anzahl Spieler:</label>
+        <input type="number" id="playerCount" min="2" value="4">
+      </div>
+      <div>
+        <label for="dartAutomaten">Anzahl Dartautomaten:</label>
+        <input type="number" id="dartAutomaten" min="1" value="2">
+      </div>
+      <div>
+        <button id="generateBtn">Turnier starten</button>
+      </div>
     </div>
-    <script src="script.js"></script>
+    <!-- Spielplan -->
+    <div class="tournament">
+      <h2>Spielplan</h2>
+      <div id="schedule"></div>
+    </div>
+    <!-- Turnierstand -->
+    <div class="standings">
+      <h2>Turnierstand</h2>
+      <div class="buttonRow" style="text-align:center; margin-bottom: 0.5rem;">
+        <button id="refreshBtn">Refresh Stand</button>
+        <button id="resetBtn">Reset Turnier</button>
+      </div>
+      <div id="standingsList"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
-
 </html>

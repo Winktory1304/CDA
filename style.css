@@ -4,118 +4,140 @@ body {
     margin: 0;
     padding: 0;
     background: #f5f5f5;
-}
-
-h1,
-h2,
-h3 {
-    text-align: center;
     color: #333;
-}
-
-.container {
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: #ddd;
+  }
+  header h1 {
+    margin: 0;
+  }
+  #toggleDarkMode {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .container {
     max-width: 900px;
     margin: auto;
     padding: 1rem;
-}
-
-.settings {
+  }
+  .settings {
     background: #fff;
     padding: 1rem;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
     margin-bottom: 1rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
-}
-
-.settings label {
+  }
+  .settings label {
     margin-right: 0.5rem;
-}
-
-.settings input {
+  }
+  .settings input {
     width: 80px;
     padding: 0.3rem;
-}
-
-.settings button {
+  }
+  .settings button {
     padding: 0.5rem 1rem;
     font-size: 1rem;
     cursor: pointer;
-}
-
-/* Spielplan & Stand */
-.tournament,
-.standings {
+  }
+  /* Spielplan & Stand */
+  .tournament, .standings {
     background: #fff;
     margin-bottom: 1rem;
     padding: 1rem;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.round {
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  .round {
     margin-bottom: 1rem;
     border-bottom: 1px solid #ddd;
     padding-bottom: 1rem;
-}
-
-.round:last-child {
+  }
+  .round:last-child {
     border: none;
-}
-
-.match {
+  }
+  .match {
     margin: 0.5rem 0;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-}
-
-.match span {
+  }
+  .match span {
     flex: 1;
     min-width: 200px;
-}
-
-.match input[type="number"] {
+  }
+  .match input[type="number"] {
     width: 60px;
     padding: 0.3rem;
     margin-left: 0.5rem;
-}
-
-/* Tabelle für den Turnierstand */
-table {
+  }
+  /* Tabelle für den Turnierstand */
+  table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 0.5rem;
-}
-
-th,
-td {
+  }
+  th, td {
     border: 1px solid #ddd;
     padding: 0.5rem;
     text-align: center;
-}
-
-th {
+  }
+  th {
     background: #eee;
-}
-
-/* Responsive Anpassungen */
-@media (max-width: 600px) {
+  }
+  /* Dark Mode */
+  .dark-mode {
+    background: #121212;
+    color: #e0e0e0;
+  }
+  .dark-mode header {
+    background: #1e1e1e;
+  }
+  .dark-mode .container {
+    /* Container bleibt meist gleich, da er nur den Inhalt zentriert */
+  }
+  .dark-mode .settings,
+  .dark-mode .tournament,
+  .dark-mode .standings {
+    background: #1e1e1e;
+    box-shadow: 0 0 10px rgba(255,255,255,0.1);
+  }
+  .dark-mode input,
+  .dark-mode button {
+    background: #333;
+    color: #e0e0e0;
+    border: 1px solid #555;
+  }
+  .dark-mode table,
+  .dark-mode th,
+  .dark-mode td {
+    border: 1px solid #444;
+  }
+  .dark-mode th {
+    background: #333;
+  }
+  /* Responsive Anpassungen */
+  @media (max-width: 600px) {
     .settings {
-        flex-direction: column;
-        align-items: center;
+      flex-direction: column;
+      align-items: center;
     }
-
     .match {
-        flex-direction: column;
-        align-items: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
     }
-
     .match input[type="number"] {
-        margin-left: 0;
-        margin-top: 0.5rem;
+      margin-left: 0;
+      margin-top: 0.5rem;
     }
-}
+  }
+  
