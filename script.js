@@ -110,7 +110,7 @@ function displaySchedule(rounds) {
             const matchDiv = document.createElement("div");
             matchDiv.className = "match";
 
-            // Anzeige, wer gegen wen spielt
+            // Anzeige, wer gegen wen spielt (kein flex-grow, damit die Inputs links bleiben)
             const matchInfo = document.createElement("span");
             matchInfo.textContent = match.player1 + " vs " + match.player2 + " - Legs:";
             matchDiv.appendChild(matchInfo);
@@ -137,7 +137,7 @@ function displaySchedule(rounds) {
             legsInput2.dataset.matchIndex = matchIndex;
             legsInput2.classList.add("legsInput2");
 
-            // Eventlistener: bei Änderung wird das Ergebnis aktualisiert
+            // Eventlistener: Bei Änderung wird das Ergebnis aktualisiert
             legsInput1.addEventListener("change", function () {
                 updateMatchResult(roundIndex, matchIndex);
                 updateStandings();
@@ -165,14 +165,12 @@ function updateMatchResult(roundIndex, matchIndex) {
     const input1 = document.querySelector(`input.legsInput1[data-round-index="${roundIndex}"][data-match-index="${matchIndex}"]`);
     const input2 = document.querySelector(`input.legsInput2[data-round-index="${roundIndex}"][data-match-index="${matchIndex}"]`);
 
-    // Lies die Werte aus – Standardmäßig als Zahl; falls leer, setze auf 0
     let score1 = parseInt(input1.value) || 0;
     let score2 = parseInt(input2.value) || 0;
 
-    // Falls Unentschieden (draw) – nicht erlaubt:
+    // Falls Unentschieden – nicht erlaubt:
     if (score1 === score2) {
         alert("Unentschieden sind nicht erlaubt. Das Ergebnis wird angepasst.");
-        // Wenn beide 0 sind, setze das zweite Feld auf 1, sonst auf 0
         if (score1 === 0) {
             score2 = 1;
             input2.value = "1";
@@ -196,7 +194,7 @@ function updateStandings() {
             losses: 0,
             legsFor: 0,
             legsAgainst: 0,
-            diffLegs: 0,  // Differenz: legsFor - legsAgainst
+            diffLegs: 0,
             points: 0
         };
     });
@@ -220,7 +218,6 @@ function updateStandings() {
             standings[player2].legsFor += score2;
             standings[player2].legsAgainst += score1;
 
-            // Gewinner: es gibt keine Unentschieden!
             if (score1 > score2) {
                 standings[player1].wins += 1;
                 standings[player1].points += 3;
@@ -233,14 +230,12 @@ function updateStandings() {
         });
     });
 
-    // Berechne Leg-Differenz
     Object.keys(standings).forEach(player => {
         standings[player].diffLegs = standings[player].legsFor - standings[player].legsAgainst;
     });
 
     saveTournament();
 
-    // Sortierung: zuerst Punkte, dann Siege, dann Leg-Differenz
     let standingsArray = Object.keys(standings).map(player => {
         return { player: player, ...standings[player] };
     });
@@ -253,7 +248,6 @@ function updateStandings() {
     const standingsDiv = document.getElementById("standingsList");
     standingsDiv.innerHTML = "";
     const table = document.createElement("table");
-    // Neue Header ohne Unentschieden, stattdessen Diff Legs:
     const headerLabels = ["Spieler", "Spiele", "Siege", "Niederl.", "Legs", "Gegenlegs", "Diff Legs", "Punkte"];
     const headerRow = document.createElement("tr");
     headerLabels.forEach(text => {
