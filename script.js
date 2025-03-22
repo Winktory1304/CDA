@@ -96,7 +96,7 @@ function generateRoundRobin(players) {
     return rounds;
 }
 
-// Zeigt den Spielplan an und erstellt die zwei Inputfelder pro Match
+// Zeigt den Spielplan an und erstellt die zwei Inputfelder pro Match in einem Container-Div
 function displaySchedule(rounds) {
     const scheduleDiv = document.getElementById("schedule");
     scheduleDiv.innerHTML = "";
@@ -110,10 +110,14 @@ function displaySchedule(rounds) {
             const matchDiv = document.createElement("div");
             matchDiv.className = "match";
 
-            // Anzeige, wer gegen wen spielt (kein flex-grow, damit die Inputs links bleiben)
+            // Anzeige, wer gegen wen spielt
             const matchInfo = document.createElement("span");
             matchInfo.textContent = match.player1 + " vs " + match.player2 + " - Legs:";
             matchDiv.appendChild(matchInfo);
+
+            // Erstelle einen Container-Div für die beiden Inputfelder und den Trenner
+            const scoreContainer = document.createElement("div");
+            scoreContainer.classList.add("score-container");
 
             // Erstes Inputfeld (Score Spieler 1)
             const legsInput1 = document.createElement("input");
@@ -137,23 +141,17 @@ function displaySchedule(rounds) {
             legsInput2.dataset.matchIndex = matchIndex;
             legsInput2.classList.add("legsInput2");
 
-            // Eventlistener: Bei Änderung wird das Ergebnis aktualisiert
-            legsInput1.addEventListener("change", function () {
-                updateMatchResult(roundIndex, matchIndex);
-                updateStandings();
-            });
-            legsInput2.addEventListener("change", function () {
-                updateMatchResult(roundIndex, matchIndex);
-                updateStandings();
-            });
-
-            // Füge die Inputfelder und einen Trenner (":") in die Anzeige ein
-            matchDiv.appendChild(legsInput1);
+            // Erstelle einen Trenner (":")
             const separator = document.createElement("span");
             separator.textContent = " : ";
-            matchDiv.appendChild(separator);
-            matchDiv.appendChild(legsInput2);
 
+            // Füge die Inputfelder und den Trenner dem Container hinzu
+            scoreContainer.appendChild(legsInput1);
+            scoreContainer.appendChild(separator);
+            scoreContainer.appendChild(legsInput2);
+
+            // Füge den Container-Div in die Match-Div ein
+            matchDiv.appendChild(scoreContainer);
             roundDiv.appendChild(matchDiv);
         });
         scheduleDiv.appendChild(roundDiv);
