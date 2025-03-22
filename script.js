@@ -184,12 +184,23 @@ function updateMatchResult(roundIndex, matchIndex) {
 // Berechnet und aktualisiert den Turnierstand inkl. Zählung der Legs und Leg-Differenz
 function updateStandings() {
     if (!tournamentData) return;
+    
+    // Update: Lese die aktuellen Werte aus den DOM-Inputfeldern und speichere sie in tournamentData
+    document.querySelectorAll('input.legsInput1').forEach(input => {
+        const roundIndex = parseInt(input.dataset.roundIndex);
+        const matchIndex = parseInt(input.dataset.matchIndex);
+        const score1 = parseInt(input.value) || 0;
+        const input2 = document.querySelector(`input.legsInput2[data-round-index="${roundIndex}"][data-match-index="${matchIndex}"]`);
+        const score2 = parseInt(input2.value) || 0;
+        tournamentData.rounds[roundIndex].matches[matchIndex].legs = score1 + "-" + score2;
+    });
+    
     let standings = {};
     tournamentData.players.forEach(player => {
-        standings[player] = {
-            played: 0,
-            wins: 0,
-            losses: 0,
+        standings[player] = { 
+            played: 0, 
+            wins: 0, 
+            losses: 0, 
             legsFor: 0,
             legsAgainst: 0,
             diffLegs: 0,
@@ -207,15 +218,15 @@ function updateStandings() {
             if (isNaN(score1) || isNaN(score2)) return;
             const player1 = match.player1;
             const player2 = match.player2;
-
+            
             standings[player1].played += 1;
             standings[player2].played += 1;
-
+            
             standings[player1].legsFor += score1;
             standings[player1].legsAgainst += score2;
             standings[player2].legsFor += score2;
             standings[player2].legsAgainst += score1;
-
+            
             if (score1 > score2) {
                 standings[player1].wins += 1;
                 standings[player1].points += 3;
@@ -227,13 +238,13 @@ function updateStandings() {
             }
         });
     });
-
+    
     Object.keys(standings).forEach(player => {
         standings[player].diffLegs = standings[player].legsFor - standings[player].legsAgainst;
     });
-
+    
     saveTournament();
-
+    
     let standingsArray = Object.keys(standings).map(player => {
         return { player: player, ...standings[player] };
     });
@@ -242,7 +253,7 @@ function updateStandings() {
         if (b.wins !== a.wins) return b.wins - a.wins;
         return b.diffLegs - a.diffLegs;
     });
-
+    
     const standingsDiv = document.getElementById("standingsList");
     standingsDiv.innerHTML = "";
     const table = document.createElement("table");
@@ -257,9 +268,9 @@ function updateStandings() {
     standingsArray.forEach(row => {
         const tr = document.createElement("tr");
         const cells = [
-            row.player,
-            row.played,
-            row.wins,
+            row.player, 
+            row.played, 
+            row.wins, 
             row.losses,
             row.legsFor,
             row.legsAgainst,
@@ -275,6 +286,7 @@ function updateStandings() {
     });
     standingsDiv.appendChild(table);
 }
+
 
 // Setzt alle Turnierdaten zurück und leert den Local Storage sowie die Ansicht
 function resetTournament() {
