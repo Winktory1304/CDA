@@ -1,154 +1,173 @@
 /* Grundlayout */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: #f5f5f5;
-    color: #333;
-  }
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background: #ddd;
-  }
-  header h1 {
-    margin: 0;
-  }
-  #toggleDarkMode {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-  }
-  .container {
-    max-width: 900px;
-    margin: auto;
-    padding: 1rem;
-  }
-  .settings {
-    background: #fff;
-    padding: 1rem;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    margin-bottom: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-  .settings label {
-    margin-right: 0.5rem;
-  }
-  .settings input {
-    width: 60px;
-    padding: 0.3rem;
-    border-radius: 5px;
-  }
-  .settings button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  /* Spielplan & Stand */
-  .tournament, .standings {
-    background: #fff;
-    margin-bottom: 1rem;
-    padding: 1rem;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-  .round {
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 1rem;
-  }
-  .round:last-child {
-    border: none;
-  }
-  .darkModeButton{
-    border-radius: 5px;
-  }
-  /* Container um die beiden Legs-Inputfelder */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f5f5f5;
+  color: #333;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #ddd;
+}
+header h1 {
+  margin: 0;
+}
+#toggleDarkMode {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 1rem;
+}
+.settings {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+.settings label {
+  margin-right: 0.5rem;
+}
+.settings input {
+  width: 60px;
+  padding: 0.3rem;
+  border-radius: 5px;
+}
+.settings button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+/* Spielplan & Stand */
+.tournament, .standings {
+  background: #fff;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.round {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1rem;
+}
+.round:last-child {
+  border: none;
+}
+.darkModeButton {
+  border-radius: 5px;
+}
+/* Container um die beiden Legs-Inputfelder */
 .score-container {
   display: flex !important;
   align-items: center;
   gap: 0.5rem;
 }
-  .match {
-    margin: 0.5rem 0;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .match span {
-        display: inline-block;
-    
-    /* Entfernt die automatische Ausdehnung, damit die Inputs direkt daneben bleiben */
-  }
-  .match input[type="number"] {
-    width: 35px;
-    padding: 0.3rem;   
-    border-radius: 5px;
-    
-  }
-  /* Tabelle für den Turnierstand */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 0.5rem;
-  }
-  th, td {
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    text-align: center;
-  }
-  th {
-    background: #eee;
-  }
-  /* Dark Mode */
-  .dark-mode {
-    background: #121212;
-    color: #e0e0e0;
-  }
-  .dark-mode header {
-    background: #1e1e1e;
-  }
-  .dark-mode .settings,
-  .dark-mode .tournament,
-  .dark-mode .standings {
-    background: #1e1e1e;
-    box-shadow: 0 0 10px rgba(255,255,255,0.1);
-  }
-  .dark-mode input,
-  .dark-mode button {
-    background: #333;
-    color: #e0e0e0;
-    border: 1px solid #555;
-  }
-  .dark-mode table,
-  .dark-mode th,
-  .dark-mode td {
-    border: 1px solid #444;
-  }
-  .dark-mode th {
-    background: #333;
-  }
-  /* Responsive Anpassungen */
-  @media (max-width: 600px) {
-    .settings {
+.match {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.match span {
+  display: inline-block;
+  /* Damit die Inputs direkt daneben bleiben */
+}
+.match input[type="number"] {
+  width: 35px;
+  padding: 0.3rem;   
+  border-radius: 5px;
+}
+/* Tabelle für den Turnierstand */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center;
+}
+th {
+  background: #eee;
+}
+/* Responsive Eigenschaften für die Tabelle */
+#standingsList {
+  overflow-x: auto;
+}
+#standingsList table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Bei kleineren Bildschirmen horizontal scrollbar */
+}
+
+/* Dark Mode */
+.dark-mode {
+  background: #121212;
+  color: #e0e0e0;
+}
+.dark-mode header {
+  background: #1e1e1e;
+}
+.dark-mode .settings,
+.dark-mode .tournament,
+.dark-mode .standings {
+  background: #1e1e1e;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+.dark-mode input,
+.dark-mode button {
+  background: #333;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+.dark-mode table,
+.dark-mode th,
+.dark-mode td {
+  border: 1px solid #444;
+}
+.dark-mode th {
+  background: #333;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 600px) {
+  .settings {
       flex-direction: column;
       align-items: center;
-    }
-    .match {
+  }
+  .match {
       flex-direction: column;
       align-items: flex-start;
-    }
-    .match input[type="number"] {
+  }
+  .match input[type="number"] {
       margin-left: 0;
       margin-top: 0.5rem;
-    }
   }
-  
+}
+@media (max-width: 768px) {
+  /* Kleinere Schriftgrößen in der Tabelle */
+  #standingsList table {
+      font-size: 0.85rem;
+  }
+}
+@media (max-width: 480px) {
+  #standingsList table {
+      font-size: 0.75rem;
+  }
+}
