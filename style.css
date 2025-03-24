@@ -147,21 +147,13 @@ th {
 .dark-mode th {
   background: #333;
 }
-.footer{
-  background-color: #121212;
-    position: absolute;
-    bottom: 0px;  
-    
-    padding: 80px 80px;
-    max-width: 100%;
-    height:20px ;
-}
+
 footer{
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding-top: 30%;
+  padding-top: 5%;
 }
 
 /* Responsive Anpassungen */
