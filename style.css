@@ -101,13 +101,16 @@ table {
   border-collapse: collapse;
   margin-top: 0.5rem;
 }
+tr:nth-last-child(even) {
+  background-color: rgb(239, 239, 239);
+}
 th, td {
   border: 1px solid #ddd;
   padding: 0.5rem;
   text-align: center;
 }
 th {
-  background: #eee;
+  background: #9c9b9b;
 }
 /* Responsive Eigenschaften für die Tabelle */
 #standingsList {
