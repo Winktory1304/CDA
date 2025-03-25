@@ -112,7 +112,7 @@ function displaySchedule(rounds) {
             
             // Anzeige, wer gegen wen spielt
             const matchInfo = document.createElement("span");
-            matchInfo.textContent = match.player1 + " vs " + match.player2 + " - Ergebnis:";
+            matchInfo.innerHTML = "<strong>" + match.player1 + "</strong> vs <strong>" + match.player2 + "</strong> - Ergebnis:";
             matchDiv.appendChild(matchInfo);
             
             // Container für Ergebnis-Buttons
@@ -283,7 +283,7 @@ function loadDarkMode() {
 // Registrierung der Eventlistener nach vollständigem Laden des DOM
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("generateBtn").addEventListener("click", generateTournament);
-    document.getElementById("refreshBtn").addEventListener("click", updateStandings);
+    // document.getElementById("refreshBtn").addEventListener("click", updateStandings);
     document.getElementById("resetBtn").addEventListener("click", resetTournament);
     document.getElementById("toggleDarkMode").addEventListener("click", toggleDarkMode);
     loadTournament();
