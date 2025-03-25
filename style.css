@@ -142,7 +142,7 @@ th {
   border-radius: 5px;
   background: #f0f0f0;
   cursor: pointer;
-  margin-right: 0.3rem;
+  margin:0.5rem 0.3rem;
 }
 
 .resultBtn.selected {
