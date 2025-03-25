@@ -96,7 +96,7 @@ function generateRoundRobin(players) {
     return rounds;
 }
 
-// Zeigt den Spielplan an und erstellt die zwei Inputfelder pro Match in einem Container-Div
+// Zeigt den Spielplan an und erstellt für jedes Match einen Container mit vier Ergebnis-Buttons
 function displaySchedule(rounds) {
     const scheduleDiv = document.getElementById("schedule");
     scheduleDiv.innerHTML = "";
@@ -109,98 +109,66 @@ function displaySchedule(rounds) {
         round.matches.forEach((match, matchIndex) => {
             const matchDiv = document.createElement("div");
             matchDiv.className = "match";
-
+            
             // Anzeige, wer gegen wen spielt
             const matchInfo = document.createElement("span");
-            matchInfo.textContent = match.player1 + " vs " + match.player2 + " - Legs:";
+            matchInfo.textContent = match.player1 + " vs " + match.player2 + " - Ergebnis:";
             matchDiv.appendChild(matchInfo);
-
-            // Erstelle einen Container-Div für die beiden Inputfelder und den Trenner
-            const scoreContainer = document.createElement("div");
-            scoreContainer.classList.add("score-container");
-
-            // Erstes Inputfeld (Score Spieler 1)
-            const legsInput1 = document.createElement("input");
-            legsInput1.type = "number";
-            legsInput1.min = "0";
-            legsInput1.max = "2";
-            legsInput1.placeholder = "0";
-            legsInput1.value = match.legs ? match.legs.split("-")[0] : "0";
-            legsInput1.dataset.roundIndex = roundIndex;
-            legsInput1.dataset.matchIndex = matchIndex;
-            legsInput1.classList.add("legsInput1");
-
-            // Zweites Inputfeld (Score Spieler 2)
-            const legsInput2 = document.createElement("input");
-            legsInput2.type = "number";
-            legsInput2.min = "0";
-            legsInput2.max = "2";
-            legsInput2.placeholder = "0";
-            legsInput2.value = match.legs ? match.legs.split("-")[1] : "0";
-            legsInput2.dataset.roundIndex = roundIndex;
-            legsInput2.dataset.matchIndex = matchIndex;
-            legsInput2.classList.add("legsInput2");
-
-            // Erstelle einen Trenner (":")
-            const separator = document.createElement("span");
-            separator.textContent = " : ";
-
-            // Füge die Inputfelder und den Trenner dem Container hinzu
-            scoreContainer.appendChild(legsInput1);
-            scoreContainer.appendChild(separator);
-            scoreContainer.appendChild(legsInput2);
-
-            // Füge den Container-Div in die Match-Div ein
-            matchDiv.appendChild(scoreContainer);
+            
+            // Container für Ergebnis-Buttons
+            const buttonContainer = document.createElement("div");
+            buttonContainer.classList.add("score-container");
+            
+            // Definierte Ergebnisse
+            const results = ["2:0", "2:1", "0:2", "1:2"];
+            results.forEach(result => {
+                const btn = document.createElement("button");
+                btn.textContent = result;
+                btn.classList.add("resultBtn");
+                // Falls bereits ein Ergebnis gesetzt wurde, markiere den entsprechenden Button
+                if (match.legs === result) {
+                    btn.classList.add("selected");
+                }
+                btn.addEventListener("click", function () {
+                    updateMatchResultWithResult(roundIndex, matchIndex, result, buttonContainer);
+                    updateStandings();
+                });
+                buttonContainer.appendChild(btn);
+            });
+            
+            matchDiv.appendChild(buttonContainer);
             roundDiv.appendChild(matchDiv);
         });
         scheduleDiv.appendChild(roundDiv);
     });
 }
 
-// Aktualisiert das Ergebnis eines Matches in den Turnierdaten anhand der zwei Inputfelder
-function updateMatchResult(roundIndex, matchIndex) {
-    const input1 = document.querySelector(`input.legsInput1[data-round-index="${roundIndex}"][data-match-index="${matchIndex}"]`);
-    const input2 = document.querySelector(`input.legsInput2[data-round-index="${roundIndex}"][data-match-index="${matchIndex}"]`);
-
-    let score1 = parseInt(input1.value) || 0;
-    let score2 = parseInt(input2.value) || 0;
-
-    // Falls Unentschieden – nicht erlaubt:
-    if (score1 === score2) {
-        alert("Unentschieden sind nicht erlaubt. Das Ergebnis wird angepasst.");
-        if (score1 === 0) {
-            score2 = 1;
-            input2.value = "1";
-        } else {
-            score2 = 0;
-            input2.value = "0";
-        }
-    }
-    tournamentData.rounds[roundIndex].matches[matchIndex].legs = score1 + "-" + score2;
+// Aktualisiert das Ergebnis eines Matches basierend auf dem gedrückten Button und hebt ihn hervor
+function updateMatchResultWithResult(roundIndex, matchIndex, result, container) {
+    // Speichere das Ergebnis
+    tournamentData.rounds[roundIndex].matches[matchIndex].legs = result;
     saveTournament();
+    // Setze alle Buttons im Container zurück
+    container.querySelectorAll("button").forEach(btn => {
+        btn.classList.remove("selected");
+    });
+    // Hebe den gedrückten Button hervor
+    const pressedBtn = Array.from(container.querySelectorAll("button")).find(btn => btn.textContent === result);
+    if (pressedBtn) {
+        pressedBtn.classList.add("selected");
+    }
 }
 
 // Berechnet und aktualisiert den Turnierstand inkl. Zählung der Legs und Leg-Differenz
 function updateStandings() {
     if (!tournamentData) return;
     
-    // Update: Lese die aktuellen Werte aus den DOM-Inputfeldern und speichere sie in tournamentData
-    document.querySelectorAll('input.legsInput1').forEach(input => {
-        const roundIndex = parseInt(input.dataset.roundIndex);
-        const matchIndex = parseInt(input.dataset.matchIndex);
-        const score1 = parseInt(input.value) || 0;
-        const input2 = document.querySelector(`input.legsInput2[data-round-index="${roundIndex}"][data-match-index="${matchIndex}"]`);
-        const score2 = parseInt(input2.value) || 0;
-        tournamentData.rounds[roundIndex].matches[matchIndex].legs = score1 + "-" + score2;
-    });
-    
     let standings = {};
     tournamentData.players.forEach(player => {
-        standings[player] = { 
-            played: 0, 
-            wins: 0, 
-            losses: 0, 
+        standings[player] = {
+            played: 0,
+            wins: 0,
+            losses: 0,
             legsFor: 0,
             legsAgainst: 0,
             diffLegs: 0,
@@ -211,7 +179,7 @@ function updateStandings() {
         round.matches.forEach(match => {
             const result = match.legs.trim();
             if (result === "") return;
-            const parts = result.split("-");
+            const parts = result.split(":");
             if (parts.length !== 2) return;
             const score1 = parseInt(parts[0]);
             const score2 = parseInt(parts[1]);
@@ -268,9 +236,9 @@ function updateStandings() {
     standingsArray.forEach(row => {
         const tr = document.createElement("tr");
         const cells = [
-            row.player, 
-            row.played, 
-            row.wins, 
+            row.player,
+            row.played,
+            row.wins,
             row.losses,
             row.legsFor,
             row.legsAgainst,
@@ -286,7 +254,6 @@ function updateStandings() {
     });
     standingsDiv.appendChild(table);
 }
-
 
 // Setzt alle Turnierdaten zurück und leert den Local Storage sowie die Ansicht
 function resetTournament() {
