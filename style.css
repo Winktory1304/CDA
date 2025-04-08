@@ -4,6 +4,8 @@ body.dark-mode {
   color: #e0e0e0;
 }
 
+
+
 /* Karten styling in Dark Mode */
 body.dark-mode .card {
   background-color: #1e1e1e;
@@ -15,17 +17,20 @@ body.dark-mode .navbar {
   background-color: #1e1e1e;
 }
 
-/* Tabellen styling in Dark Mode */
-body.dark-mode .table {
-  background-color: #1e1e1e;
+body.dark-mode .thead-light {
+  background-color: #333;
   color: #e0e0e0;
 }
 
-/* Sicherstellen, dass Tabellenzellen auch lesbar sind */
-body.dark-mode th,
-body.dark-mode td {
+
+body.dark-mode table.table,
+body.dark-mode table.table th,
+body.dark-mode table.table td {
+  background-color: #1e1e1e;
   color: #e0e0e0;
+  border-color: #555;
 }
+
 
 /* Eingabefelder und zugehörige Labels im Dark Mode */
 body.dark-mode label {
@@ -67,4 +72,31 @@ body.dark-mode a {
 /* Footer Styling */
 footer {
   padding: 1rem;
+}
+
+/* Dark Mode für Modal */
+body.dark-mode .modal-content {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-body,
+body.dark-mode .modal-footer {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+body.dark-mode .modal-header {
+  border-bottom: 1px solid #555;
+}
+
+body.dark-mode .modal-title {
+  color: #e0e0e0;
+}
+
+/* Optional: Damit das Schließsymbol (btn-close) im Dark Mode gut sichtbar ist */
+body.dark-mode .btn-close {
+  filter: invert(1);
 }

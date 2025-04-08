@@ -43,9 +43,9 @@ function showPlayerModal(playerCount, dartAutomaten) {
         const div = document.createElement("div");
         div.classList.add("mb-3");
         div.innerHTML = `
-      <label for="player${i}" class="form-label">Spieler ${i}</label>
-      <input type="text" class="form-control" id="player${i}" placeholder="Name Spieler ${i}" value="Spieler ${i}">
-    `;
+        <label for="player${i}" class="form-label">Spieler ${i}</label>
+        <input type="text" class="form-control" id="player${i}" placeholder="Name Spieler ${i}">
+      `;
         playerForm.appendChild(div);
     }
     const playerModalEl = document.getElementById("playerModal");
@@ -176,6 +176,7 @@ function updateMatchResultWithResult(roundIndex, matchIndex, result, container) 
 function updateStandings() {
     if (!tournamentData) return;
 
+    // Erzeuge den Stand als Objekt
     let standings = {};
     tournamentData.players.forEach(player => {
         standings[player] = {
@@ -221,12 +222,14 @@ function updateStandings() {
         });
     });
 
+    // Berechne Differenz der Legs
     Object.keys(standings).forEach(player => {
         standings[player].diffLegs = standings[player].legsFor - standings[player].legsAgainst;
     });
 
     saveTournament();
 
+    // Umwandlung in ein Array und Sortierung
     let standingsArray = Object.keys(standings).map(player => {
         return { player: player, ...standings[player] };
     });
@@ -236,19 +239,33 @@ function updateStandings() {
         return b.diffLegs - a.diffLegs;
     });
 
+    // Leere die Anzeige und baue die Bootstrap-Tabelle auf
     const standingsDiv = document.getElementById("standingsList");
     standingsDiv.innerHTML = "";
+
+    // Wrapper für responsive Tabelle
+    const tableWrapper = document.createElement("div");
+    tableWrapper.classList.add("table-responsive");
+
     const table = document.createElement("table");
     table.classList.add("table", "table-striped", "table-bordered", "table-hover");
-    const headerLabels = ["Spieler", "Spiele", "Siege", "Niederl.", "Legs", "Gegenlegs", "Diff Legs", "Punkte"];
+
+    // Tabellenkopf im <thead>
+    const thead = document.createElement("thead");
+    thead.classList.add("thead-light");
     const headerRow = document.createElement("tr");
+    const headerLabels = ["Spieler", "Spiele", "Siege", "Niederl.", "Legs", "Gegenlegs", "Diff Legs", "Punkte"];
     headerLabels.forEach(text => {
         const th = document.createElement("th");
+        th.scope = "col"; // semantisch korrekt
         th.textContent = text;
         headerRow.appendChild(th);
     });
-    table.appendChild(headerRow);
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
 
+    // Tabellenkörper im <tbody>
+    const tbody = document.createElement("tbody");
     standingsArray.forEach(row => {
         const tr = document.createElement("tr");
         const cells = [
@@ -266,11 +283,13 @@ function updateStandings() {
             td.textContent = cellText;
             tr.appendChild(td);
         });
-        table.appendChild(tr);
+        tbody.appendChild(tr);
     });
-
-    standingsDiv.appendChild(table);
+    table.appendChild(tbody);
+    tableWrapper.appendChild(table);
+    standingsDiv.appendChild(tableWrapper);
 }
+
 
 function resetTournament() {
     tournamentData = null;
