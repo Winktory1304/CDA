@@ -96,7 +96,41 @@ body.dark-mode .modal-title {
   color: #e0e0e0;
 }
 
+
 /* Optional: Damit das Schließsymbol (btn-close) im Dark Mode gut sichtbar ist */
 body.dark-mode .btn-close {
   filter: invert(1);
+}
+
+/* Dark Mode für Accordion */
+
+/* Für die Accordion-Items */
+body.dark-mode .accordion-item {
+  background-color: #1e1e1e;
+  border: 1px solid #555;
+}
+
+/* Für den Accordion-Header und Button */
+body.dark-mode .accordion-header .accordion-button {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #555;
+}
+
+body.dark-mode .accordion-header .accordion-button:not(.collapsed) {
+  background-color: #333; /* etwas hellerer Hintergrund, wenn ausgeklappt */
+  color: #e0e0e0;
+  box-shadow: none; /* optional: Box-Shadow entfernen */
+}
+
+/* Für den Accordion-Body */
+body.dark-mode .accordion-body {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border-top: 1px solid #555;
+}
+
+/* Optional: Anpassung der Links, falls im Accordion verwendet */
+body.dark-mode .accordion a {
+  color: #90caf9;
 }
