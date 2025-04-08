@@ -12,6 +12,15 @@ body.dark-mode .card {
   border-color: #333;
 }
 
+body.dark-mode .card-header {
+  background-color: #2a2a2a; /* Etwas helleres Dunkel als der Card-Body */
+  color: #e0e0e0;
+  border-bottom: 2px solid #555; /* Stärkerer Unterrand */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-weight: bold; /* Optional: Text fett anzeigen */
+}
+
+
 /* Navbar styling in Dark Mode */
 body.dark-mode .navbar {
   background-color: #1e1e1e;

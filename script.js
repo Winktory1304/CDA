@@ -329,7 +329,14 @@ function resetTournament() {
 
 function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
-    localStorage.setItem("darkMode", document.body.classList.contains("dark-mode"));
+    const toggleBtn = document.getElementById("toggleDarkMode");
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem("darkMode", true);
+        toggleBtn.textContent = "Light Mode";
+    } else {
+        localStorage.setItem("darkMode", false);
+        toggleBtn.textContent = "Dark Mode";
+    }
 }
 
 function loadDarkMode() {
