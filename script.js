@@ -43,9 +43,9 @@ function showPlayerModal(playerCount, dartAutomaten) {
         const div = document.createElement("div");
         div.classList.add("mb-3");
         div.innerHTML = `
-        <label for="player${i}" class="form-label">Spieler ${i}</label>
-        <input type="text" class="form-control" id="player${i}" placeholder="Name Spieler ${i}">
-      `;
+      <label for="player${i}" class="form-label">Spieler ${i}</label>
+      <input type="text" class="form-control" id="player${i}" placeholder="Name Spieler ${i}">
+    `;
         playerForm.appendChild(div);
     }
     const playerModalEl = document.getElementById("playerModal");
@@ -133,6 +133,7 @@ function displaySchedule(rounds) {
             matchDiv.className = "mb-2";
 
             const matchInfo = document.createElement("p");
+            matchInfo.classList.add("match-info");
             matchInfo.innerHTML = `<strong>${match.player1}</strong> vs <strong>${match.player2}</strong> - Ergebnis:`;
             matchDiv.appendChild(matchInfo);
 
@@ -176,7 +177,6 @@ function updateMatchResultWithResult(roundIndex, matchIndex, result, container) 
 function updateStandings() {
     if (!tournamentData) return;
 
-    // Erzeuge den Stand als Objekt
     let standings = {};
     tournamentData.players.forEach(player => {
         standings[player] = {
@@ -222,14 +222,12 @@ function updateStandings() {
         });
     });
 
-    // Berechne Differenz der Legs
     Object.keys(standings).forEach(player => {
         standings[player].diffLegs = standings[player].legsFor - standings[player].legsAgainst;
     });
 
     saveTournament();
 
-    // Umwandlung in ein Array und Sortierung
     let standingsArray = Object.keys(standings).map(player => {
         return { player: player, ...standings[player] };
     });
@@ -239,32 +237,33 @@ function updateStandings() {
         return b.diffLegs - a.diffLegs;
     });
 
-    // Leere die Anzeige und baue die Bootstrap-Tabelle auf
     const standingsDiv = document.getElementById("standingsList");
     standingsDiv.innerHTML = "";
 
-    // Wrapper für responsive Tabelle
     const tableWrapper = document.createElement("div");
     tableWrapper.classList.add("table-responsive");
 
     const table = document.createElement("table");
     table.classList.add("table", "table-striped", "table-bordered", "table-hover");
 
-    // Tabellenkopf im <thead>
     const thead = document.createElement("thead");
-    thead.classList.add("thead-light");
+    // Alternativ: je nach Dark Mode kann hier thead-dark gesetzt werden
+    if (document.body.classList.contains("dark-mode")) {
+        thead.classList.add("thead-dark");
+    } else {
+        thead.classList.add("thead-light");
+    }
     const headerRow = document.createElement("tr");
     const headerLabels = ["Spieler", "Spiele", "Siege", "Niederl.", "Legs", "Gegenlegs", "Diff Legs", "Punkte"];
     headerLabels.forEach(text => {
         const th = document.createElement("th");
-        th.scope = "col"; // semantisch korrekt
+        th.scope = "col";
         th.textContent = text;
         headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
     table.appendChild(thead);
 
-    // Tabellenkörper im <tbody>
     const tbody = document.createElement("tbody");
     standingsArray.forEach(row => {
         const tr = document.createElement("tr");
@@ -286,10 +285,38 @@ function updateStandings() {
         tbody.appendChild(tr);
     });
     table.appendChild(tbody);
+
     tableWrapper.appendChild(table);
     standingsDiv.appendChild(tableWrapper);
 }
 
+// Neue Funktion, die bei Klick auf "New Shuffle" die Spieler neu mischt und den Spielplan neu generiert
+function newShuffleTournament() {
+    if (!tournamentData || !tournamentData.players || tournamentData.players.length === 0) {
+        alert("Bitte starte erst ein Turnier, um Spieler einzutragen.");
+        return;
+    }
+    // Mische die bestehenden Spieler neu
+    tournamentData.players = shuffleArray(tournamentData.players);
+    const rounds = generateRoundRobin(tournamentData.players);
+    let finalRounds = [];
+    const dartAutomaten = tournamentData.dartAutomaten;
+    rounds.forEach((round, roundIndex) => {
+        if (round.length <= dartAutomaten) {
+            finalRounds.push({ round: (roundIndex + 1).toString(), matches: round });
+        } else {
+            const subRoundsCount = Math.ceil(round.length / dartAutomaten);
+            for (let sub = 0; sub < subRoundsCount; sub++) {
+                const subMatches = round.slice(sub * dartAutomaten, (sub + 1) * dartAutomaten);
+                finalRounds.push({ round: (roundIndex + 1) + "." + (sub + 1), matches: subMatches });
+            }
+        }
+    });
+    tournamentData.rounds = finalRounds;
+    saveTournament();
+    displaySchedule(tournamentData.rounds);
+    updateStandings();
+}
 
 function resetTournament() {
     tournamentData = null;
@@ -319,5 +346,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("generateBtn").addEventListener("click", generateTournament);
     document.getElementById("resetBtn").addEventListener("click", resetTournament);
     document.getElementById("toggleDarkMode").addEventListener("click", toggleDarkMode);
+    document.getElementById("shuffleBtn").addEventListener("click", newShuffleTournament);
     loadTournament();
 });
