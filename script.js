@@ -162,15 +162,24 @@ function displaySchedule(rounds) {
     });
 }
 
+// Aktualisierte Funktion, die beim erneuten Klick den Wert wieder entfernt
 function updateMatchResultWithResult(roundIndex, matchIndex, result, container) {
-    tournamentData.rounds[roundIndex].matches[matchIndex].legs = result;
+    const match = tournamentData.rounds[roundIndex].matches[matchIndex];
+    // Wenn das Ergebnis bereits gesetzt wurde, dann entfernen wir es, sonst setzen wir es
+    if (match.legs === result) {
+        match.legs = "";
+    } else {
+        match.legs = result;
+    }
     saveTournament();
     container.querySelectorAll("button").forEach(btn => {
         btn.classList.remove("active");
     });
-    const pressedBtn = Array.from(container.querySelectorAll("button")).find(btn => btn.textContent === result);
-    if (pressedBtn) {
-        pressedBtn.classList.add("active");
+    if (match.legs !== "") {
+        const pressedBtn = Array.from(container.querySelectorAll("button")).find(btn => btn.textContent === match.legs);
+        if (pressedBtn) {
+            pressedBtn.classList.add("active");
+        }
     }
 }
 
@@ -247,7 +256,6 @@ function updateStandings() {
     table.classList.add("table", "table-striped", "table-bordered", "table-hover");
 
     const thead = document.createElement("thead");
-    // Alternativ: je nach Dark Mode kann hier thead-dark gesetzt werden
     if (document.body.classList.contains("dark-mode")) {
         thead.classList.add("thead-dark");
     } else {
