@@ -139,6 +139,8 @@ function displaySchedule(rounds) {
 
             const buttonContainer = document.createElement("div");
             buttonContainer.classList.add("btn-group", "mb-2");
+
+            // Ergebnis-Buttons
             const results = ["2:0", "2:1", "0:2", "1:2"];
             results.forEach(result => {
                 const btn = document.createElement("button");
@@ -153,6 +155,18 @@ function displaySchedule(rounds) {
                 });
                 buttonContainer.appendChild(btn);
             });
+            
+            // Reset-Button zum Zurücksetzen des Ergebnisses
+            const resetButtonText = "Reset";
+            const resetBtn = document.createElement("button");
+            resetBtn.textContent = resetButtonText;
+            resetBtn.classList.add("btn", "btn-outline-secondary");
+            resetBtn.addEventListener("click", function () {
+                updateMatchResultWithResult(roundIndex, matchIndex, "", buttonContainer);
+                updateStandings();
+            });
+            buttonContainer.appendChild(resetBtn);
+
             matchDiv.appendChild(buttonContainer);
             cardBody.appendChild(matchDiv);
         });
@@ -162,26 +176,25 @@ function displaySchedule(rounds) {
     });
 }
 
-// Aktualisierte Funktion, die beim erneuten Klick den Wert wieder entfernt
+// Aktualisierte Funktion, die auch das Zurücksetzen (leerer String) unterstützt
 function updateMatchResultWithResult(roundIndex, matchIndex, result, container) {
     const match = tournamentData.rounds[roundIndex].matches[matchIndex];
-    // Wenn das Ergebnis bereits gesetzt wurde, dann entfernen wir es, sonst setzen wir es
-    if (match.legs === result) {
-        match.legs = "";
-    } else {
-        match.legs = result;
-    }
+    // Setze das Ergebnis; wenn result leer ist, wird es zurückgesetzt.
+    match.legs = result;
     saveTournament();
+
     container.querySelectorAll("button").forEach(btn => {
         btn.classList.remove("active");
     });
     if (match.legs !== "") {
-        const pressedBtn = Array.from(container.querySelectorAll("button")).find(btn => btn.textContent === match.legs);
+        const pressedBtn = Array.from(container.querySelectorAll("button"))
+            .find(btn => btn.textContent === match.legs);
         if (pressedBtn) {
             pressedBtn.classList.add("active");
         }
     }
 }
+
 
 function updateStandings() {
     if (!tournamentData) return;
@@ -355,6 +368,27 @@ function loadDarkMode() {
         document.body.classList.remove("dark-mode");
     }
 }
+
+document.addEventListener("click", function(e) {
+    const accordion = document.getElementById("settingsAccordion");
+    if (!accordion.contains(e.target)) {
+        // Suche nach einem offenen (show) Accordion-Panel
+        const openPanel = accordion.querySelector(".accordion-collapse.show");
+        if (openPanel) {
+            // Hole die Bootstrap-Collapse-Instanz und schließe das Panel
+            const collapseInstance = bootstrap.Collapse.getInstance(openPanel);
+            if(collapseInstance) {
+                collapseInstance.hide();
+            } else {
+                // Falls noch keine Instanz existiert, erstelle sie (mit toggle: false) und schließe sie
+                new bootstrap.Collapse(openPanel, { toggle: false }).hide();
+            }
+        }
+    }
+});
+
+
+
 
 // Registrierung der Eventlistener nach DOM-Content-Loaded
 document.addEventListener("DOMContentLoaded", function () {
