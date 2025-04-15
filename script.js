@@ -2,7 +2,12 @@ let tournamentData = null;
 
 function saveTournament() {
     localStorage.setItem("dartTournament", JSON.stringify(tournamentData));
+    // Turnier-Daten an einem festen Pfad aktualisieren:
+    putData("currentTournament", tournamentData)
+        .then(result => console.log("Turnier-Daten aktualisiert in Firebase:", result))
+        .catch(error => console.error("Fehler beim Aktualisieren in Firebase:", error));
 }
+
 
 function loadTournament() {
     const data = localStorage.getItem("dartTournament");
@@ -306,10 +311,15 @@ function updateStandings() {
         tbody.appendChild(tr);
     });
     table.appendChild(tbody);
-
     tableWrapper.appendChild(table);
     standingsDiv.appendChild(tableWrapper);
+
+    // Neuen Abschnitt: Turnierstand in Firebase speichern
+    putData("tournamentStandings", standingsArray)
+        .then(result => console.log("Turnierstand erfolgreich in Firebase gespeichert:", result))
+        .catch(error => console.error("Fehler beim Speichern des Turnierstands in Firebase:", error));
 }
+
 
 // Neue Funktion, die bei Klick auf "New Shuffle" die Spieler neu mischt und den Spielplan neu generiert
 function newShuffleTournament() {

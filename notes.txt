@@ -1,0 +1,5 @@
+- mit reset Tunier werden nur die localStorage Daten gelöscht, es werden aber nicht die Firebasedaten wieder geladen (vllt Button um Spielsatnd wiederherzustellen?)
+- zurzeit wird PUT benutzt, alles wird überschrieben
+- Button hinzufügen, der das Ergebnis speichert (nur Tabelle?)
+- muss das hochladen in Echtzeit sein?
+- Sicherheit !!! Wie ? (https://firebase.google.com/docs/auth?hl=de)
