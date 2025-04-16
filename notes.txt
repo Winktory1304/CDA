@@ -2,4 +2,5 @@
 - zurzeit wird PUT benutzt, alles wird überschrieben
 - Button hinzufügen, der das Ergebnis speichert (nur Tabelle?)
 - muss das hochladen in Echtzeit sein?
-- Sicherheit !!! Wie ? (https://firebase.google.com/docs/auth?hl=de)
+- Sicherheit !!! Wie ? (https://firebase.google.com/docs/auth?hl=de) --> Fester Kader kann sich anmelden
+- Wenn man sich anonym anmeldet, Speichern nur localStorage
