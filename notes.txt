@@ -4,3 +4,4 @@
 - muss das hochladen in Echtzeit sein?
 - Sicherheit !!! Wie ? (https://firebase.google.com/docs/auth?hl=de) --> Fester Kader kann sich anmelden
 - Wenn man sich anonym anmeldet, Speichern nur localStorage
+- Carsten, Robert, Dustin, Paul, Eyk, Christian, Dennis
